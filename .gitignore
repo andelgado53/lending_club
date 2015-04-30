@@ -1,0 +1,9 @@
+
+resources.py
+*.txt
+*.csv
+*.R
+*.RData
+*.p
+*.pyc
+.idea
