@@ -63,7 +63,7 @@ def get_cdt_age(str_date):
 
 
 def get_good_class_variables(loan):
-    
+
     loan_id = loan['id']
     funded_amnt = loan['loanAmount']
     is_36_months = 1 if loan['term'] == 36 else 0
@@ -72,10 +72,10 @@ def get_good_class_variables(loan):
     home_ownership_own = 1 if loan['homeOwnership'] == 'OWN' else 0
     home_ownership_rent = 1 if loan['homeOwnership'] == 'RENT' else 0
     annual_inc = loan['annualInc']
-    home_improvement = 1 if loan['purpose'] == 'home_improvement' else 0 
+    home_improvement = 1 if loan['purpose'] == 'home_improvement' else 0
     medical = 1 if loan['purpose'] == 'medical' else 0
     other = 1 if loan['purpose'] == 'other' else 0
-    small_buss = 1 if loan['purpose'] == 'small_business' else 0 
+    small_buss = 1 if loan['purpose'] == 'small_business' else 0
     dti = loan['dti']
     crdt_age = get_cdt_age(loan['earliestCrLine']) # in years needs function to calculate
     fico = (loan['ficoRangeHigh'] + loan['ficoRangeLow']) / 2
@@ -85,8 +85,8 @@ def get_good_class_variables(loan):
     revol_util = loan['revolUtil']
     total_accts = loan['totalAcc']
 
-    return [funded_amnt, is_36_months, int_rate, installment, home_ownership_own, home_ownership_rent, 
-    annual_inc, home_improvement, medical, other, small_buss, dti, crdt_age, fico, inq_last_6_months, 
+    return [funded_amnt, is_36_months, int_rate, installment, home_ownership_own, home_ownership_rent,
+    annual_inc, home_improvement, medical, other, small_buss, dti, crdt_age, fico, inq_last_6_months,
     open_acc, pub_recods, revol_util, total_accts], loan_id
 
 def get_great_class_variables(loan):
@@ -97,14 +97,14 @@ def get_great_class_variables(loan):
     int_rate = loan['intRate']
     installment = loan['installment']
     annual_inc = loan['annualInc']
-    educational = 1 if loan['purpose'] == 'educational' else 0 
-    home_improvement = 1 if loan['purpose'] == 'home_improvement' else 0 
+    educational = 1 if loan['purpose'] == 'educational' else 0
+    home_improvement = 1 if loan['purpose'] == 'home_improvement' else 0
     medical = 1 if loan['purpose'] == 'medical' else 0
     moving = 1 if loan['purpose'] == 'moving' else 0
     other = 1 if loan['purpose'] == 'other' else 0
     renewable_energy = 1 if loan['purpose'] == 'renewable_energy' else 0
-    small_buss = 1 if loan['purpose'] == 'small_business' else 0 
-    vacations = 1 if loan['purpose'] == 'vacation' else 0 
+    small_buss = 1 if loan['purpose'] == 'small_business' else 0
+    vacations = 1 if loan['purpose'] == 'vacation' else 0
     dti = loan['dti']
     crdt_age = get_cdt_age(loan['earliestCrLine']) # in years needs function to calculate
     fico = (loan['ficoRangeHigh'] + loan['ficoRangeLow']) / 2
@@ -114,9 +114,9 @@ def get_great_class_variables(loan):
     revol_util = loan['revolUtil']
     total_accts = loan['totalAcc']
 
-    return [funded_amnt, is_36_months, int_rate, installment, annual_inc, 
-            educational, home_improvement,medical, moving, other, 
-            renewable_energy,small_buss, vacations, dti, crdt_age, fico, 
+    return [funded_amnt, is_36_months, int_rate, installment, annual_inc,
+            educational, home_improvement,medical, moving, other,
+            renewable_energy,small_buss, vacations, dti, crdt_age, fico,
             inq_last_6_months, open_acc, pub_recods, revol_util, total_accts], loan_id
 
 def get_ok_class_variables(loan):
@@ -134,8 +134,8 @@ def get_ok_class_variables(loan):
     is_36_months = 1 if loan['term'] == 36 else 0
     is_renter = 1 if loan['homeOwnership'] == 'RENT' else 0
     is_buss = 1 if loan['purpose'] == 'small_business' else 0
-        
-    return [int_rate, annual_inc, dti, crdt_age, fico, inq_last_6_months, open_acc, revol_util, 
+
+    return [int_rate, annual_inc, dti, crdt_age, fico, inq_last_6_months, open_acc, revol_util,
             total_accts, is_36_months, is_renter, is_buss], loan_id
 
 
@@ -149,14 +149,14 @@ def get_loans_owned():
     return mynotes
 
 def invest(loan_id):
-     
+
     pl = {
             "aid": resources.investor_id,
             "orders":[
                 {
                     "loanId": loan_id,
                     "requestedAmount": 25.0,
-                    "portfolioId": resources.portfolioIds
+                    "portfolioId": resources.portfolioId
                 }
              ]
         }
@@ -167,7 +167,7 @@ def invest(loan_id):
 
 def select_best_loans(list_of_loans, cdt_class, cash_available):
 
-    
+
     current_models = {
     'AB' : pickle.load(open(os.path.join(base_directory, 'great_classes_model.p'), 'r')),
     'CD' : pickle.load(open(os.path.join(base_directory, 'good_classes_model.p'), 'r')),
@@ -181,7 +181,7 @@ def select_best_loans(list_of_loans, cdt_class, cash_available):
             paid_proba = current_models[cdt_class].predict_proba(loan[0])[0][1]
             if paid_proba >= machine_models.model_params[cdt_class]:
                 selected_loans.append((paid_proba, loan_id))
-                
+
         except:
             continue
         #print(loan_id)
@@ -217,12 +217,12 @@ def main():
         current_balance = select_best_loans(great_credit_loans, 'AB', current_balance)
 
 
-    
+
 main()
 
 
 
-    
+
 
 
 
